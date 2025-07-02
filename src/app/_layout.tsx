@@ -1,6 +1,11 @@
-import { Stack } from 'expo-router'
+import { ClerkProvider } from '@clerk/clerk-expo'
+import { Slot } from 'expo-router'
 import '../../global.css'
 
 export default function RootLayout() {
-  return <Stack />
+  return (
+    <ClerkProvider>
+      <Slot />
+    </ClerkProvider>
+  )
 }
