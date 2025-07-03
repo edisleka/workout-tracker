@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Link, useRouter } from 'expo-router'
 import { useState } from 'react'
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   Text,
@@ -24,6 +25,12 @@ export default function SignInScreen() {
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
     if (!isLoaded) return
+    if (!emailAddress || !password) {
+      Alert.alert('Missing Fields', 'Please fill in all fields')
+      return
+    }
+
+    setIsLoading(true)
 
     // Start the sign-in process using the email and password provided
     try {
@@ -46,6 +53,8 @@ export default function SignInScreen() {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error(JSON.stringify(err, null, 2))
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -114,6 +123,7 @@ export default function SignInScreen() {
                     placeholderTextColor='#9CA3AF'
                     className='flex-1 ml-3 text-gray-900'
                     editable={!isLoading}
+                    secureTextEntry={true}
                   />
                 </View>
               </View>
